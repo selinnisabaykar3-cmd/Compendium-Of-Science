@@ -1,201 +1,64 @@
-const knowledgeBase = [
+async function askAI() {
 
-{
-    keywords:["hücre"],
-    response:"Hücre, canlıların yapısal ve işlevsel temel birimidir. Tüm canlılar bir veya daha fazla hücreden oluşur."
-},
+```
+const input = document.getElementById("question");
+const question = input.value.trim();
 
-{
-    keywords:["dna"],
-    response:"DNA, canlıların kalıtsal bilgisini taşıyan moleküldür ve hücrelerin nasıl çalışacağını belirleyen talimatları içerir."
-},
+if (!question) return;
 
-{
-    keywords:["rna"],
-    response:"RNA, DNA'daki genetik bilgilerin protein üretiminde kullanılmasını sağlayan moleküldür."
-},
+const chat = document.getElementById("chat");
 
-{
-    keywords:["mitoz"],
-    response:"Mitoz, bir hücrenin iki genetik olarak özdeş yavru hücre oluşturacak şekilde bölünmesidir."
-},
+chat.innerHTML += `
+    <div class="user-message">
+        ${question}
+    </div>
+`;
 
-{
-    keywords:["mayoz"],
-    response:"Mayoz, üreme hücrelerini oluşturan ve kromozom sayısını yarıya indiren hücre bölünmesidir."
-},
+const thinkingId = "ai-" + Date.now();
 
-{
-    keywords:["ozmoz"],
-    response:"Ozmoz, suyun yarı geçirgen bir zardan düşük yoğunluklu ortamdan yüksek yoğunluklu ortama geçmesidir."
-},
+chat.innerHTML += `
+    <div class="ai-message" id="${thinkingId}">
+        Thinking...
+    </div>
+`;
 
-{
-    keywords:["difüzyon","difuzyon"],
-    response:"Difüzyon, maddelerin yoğunluğun fazla olduğu ortamdan az olduğu ortama doğru yayılmasıdır."
-},
+input.value = "";
 
-{
-    keywords:["enzim"],
-    response:"Enzimler, canlılardaki kimyasal reaksiyonları hızlandıran biyolojik katalizörlerdir."
-},
+try {
 
-{
-    keywords:["protein"],
-    response:"Proteinler, hücrelerin yapı taşı olan ve birçok biyolojik görevi yerine getiren büyük moleküllerdir."
-},
+    const response = await fetch("/api/ask", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            question: question
+        })
+    });
 
-{
-    keywords:["atom"],
-    response:"Atom, maddenin temel yapı taşıdır ve proton, nötron ile elektronlardan oluşur."
-},
+    const data = await response.json();
 
-{
-    keywords:["molekül"],
-    response:"Molekül, iki veya daha fazla atomun kimyasal bağlarla birleşmesiyle oluşur."
-},
+    document.getElementById(thinkingId).innerHTML =
+        data.answer || data.error || "Bir hata oluştu.";
 
-{
-    keywords:["element"],
-    response:"Element, yalnızca tek tür atomdan oluşan saf maddedir."
-},
+} catch (error) {
 
-{
-    keywords:["bileşik","bilesik"],
-    response:"Bileşik, iki veya daha fazla farklı elementin kimyasal olarak birleşmesiyle oluşan maddedir."
-},
+    document.getElementById(thinkingId).innerHTML =
+        "Sunucuya bağlanılamadı.";
 
-{
-    keywords:["asit"],
-    response:"Asitler, suda çözündüğünde hidrojen iyonu veren maddelerdir."
-},
-
-{
-    keywords:["baz"],
-    response:"Bazlar, hidrojen iyonu alan veya hidroksit iyonu veren maddelerdir."
-},
-
-{
-    keywords:["ph"],
-    response:"pH, bir çözeltinin asidik ya da bazik olduğunu gösteren ölçektir."
-},
-
-{
-    keywords:["periyodik tablo"],
-    response:"Periyodik tablo, elementleri atom numaralarına göre düzenleyen sistemdir."
-},
-
-{
-    keywords:["yer çekimi","yerçekimi"],
-    response:"Yer çekimi, kütleye sahip cisimlerin birbirini çekmesini sağlayan temel kuvvettir."
-},
-
-{
-    keywords:["kuvvet"],
-    response:"Kuvvet, bir cismin hareketini veya şeklini değiştirebilen etkidir."
-},
-
-{
-    keywords:["enerji"],
-    response:"Enerji, iş yapabilme veya değişim meydana getirebilme kapasitesidir."
-},
-
-{
-    keywords:["hız","hiz"],
-    response:"Hız, bir cismin belirli bir yöndeki hareket oranını ifade eder."
-},
-
-{
-    keywords:["ivme"],
-    response:"İvme, hızın zamana göre değişim oranıdır."
-},
-
-{
-    keywords:["momentum"],
-    response:"Momentum, bir cismin kütlesi ile hızının çarpımıdır."
-},
-
-{
-    keywords:["kara delik"],
-    response:"Kara delik, çekim kuvveti ışığın bile kaçamayacağı kadar güçlü olan uzay bölgesidir."
-},
-
-{
-    keywords:["yıldız","yildiz"],
-    response:"Yıldızlar, çekirdeklerinde füzyon reaksiyonları gerçekleşen dev sıcak gaz küreleridir."
-},
-
-{
-    keywords:["gezegen"],
-    response:"Gezegenler, yıldızların etrafında dönen büyük gök cisimleridir."
-},
-
-{
-    keywords:["galaksi"],
-    response:"Galaksi, milyarlarca yıldız, gaz ve toz bulutundan oluşan dev sistemlerdir."
 }
+```
 
-];
-
-function askAI(){
-
-    const input = document.getElementById("question");
-    const question = input.value;
-
-    if(question.trim() === "") return;
-
-    const q = question.toLowerCase();
-
-    const chat = document.getElementById("chat");
-
-    let response = "";
-
-for(const topic of knowledgeBase){
-
-    if(
-        topic.keywords.some(keyword =>
-            q.includes(keyword)
-        )
-    ){
-        response = topic.response;
-        break;
-    }
-}
-
-if(response === ""){
-
-    response =
-    "Bu konu şu anda Compendium AI Beta'nın bilgi tabanında bulunmuyor. Bilgi tabanı sürekli geliştirilmektedir.";
-}
-    chat.innerHTML += `
-        <div class="user-message">
-            ${question}
-        </div>
-    `;
-
-    const thinkingId = "ai-" + Date.now();
-
-    chat.innerHTML += `
-        <div class="ai-message" id="${thinkingId}">
-            Thinking...
-        </div>
-    `;
-
-    setTimeout(() => {
-
-        document.getElementById(thinkingId).innerHTML = response;
-
-    },1000);
-
-    input.value="";
 }
 
 document
 .getElementById("question")
-.addEventListener("keypress", function(event){
+.addEventListener("keypress", function(event) {
 
-    if(event.key === "Enter"){
-        askAI();
-    }
+```
+if (event.key === "Enter") {
+    askAI();
+}
+```
 
 });
