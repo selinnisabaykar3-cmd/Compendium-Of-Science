@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Compendium AI Assistant</title>
+
+    <link rel="stylesheet"
+          href="assistant.css">
+
+</head>
+
+<body>
+    <a href="index.html" class="back-btn">
+    ← Back to Home
+</a>
+
+    <div class="container">
+
+        <h1>Compendium AI Assistant</h1>
+
+        <p>
+            Ask scientific questions and explore
+            scientific concepts.
+        </p>
+
+        <div class="chat-box">
+
+            <input
+                id="question"
+                type="text"
+                placeholder="Ask a scientific question..."
+            >
+
+            <button onclick="askAI()">
+                Ask AI
+            </button>
+
+        </div>
+
+       <div id="chat" class="chat">
+
+</div>
+
+    </div>
+
+    <script src="assistant.js"></script>
+
+</body>
+
+</html>

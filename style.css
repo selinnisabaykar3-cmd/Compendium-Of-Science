@@ -1,0 +1,272 @@
+/* RESET */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial, sans-serif;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+    background:white;
+}
+
+/* BÖLÜMLER */
+
+.image-section{
+    min-height:100vh;
+
+    background-size:cover;
+    background-position:center;
+    background-repeat:no-repeat;
+
+    opacity:0;
+    transform:translateY(80px);
+    transition:all 1.2s ease;
+}
+
+.image-section.show{
+    opacity:1;
+    transform:translateY(0);
+}
+
+/* HERO */
+
+.hero{
+    min-height:100vh;
+
+    position:relative;
+
+    background-image:url("images/1.png");
+}
+
+/* ABOUT */
+
+.about{
+    background-image:url("images/2.png");
+}
+
+/* WHY */
+
+.why{
+    background-image:url("images/3.png");
+}
+
+/* MISSION */
+
+.mission{
+    background-image:url("images/5.png");
+}
+
+/* STORY */
+
+.story{
+    background-image:url("images/6.png");
+}
+
+/* PNG SAYFALARINDAKİ YAZILARI GİZLE */
+
+.about h2,
+.about p,
+.why h2,
+.why p,
+.mission h2,
+.mission p,
+.story h2,
+.story p{
+    display:none;
+}
+
+/* HOME */
+
+.home-btn{
+    position:absolute;
+
+    top:0;
+    right:240px;
+
+    width:120px;
+    height:60px;
+
+    z-index:999;
+}
+
+/* LET'S START */
+
+.start-btn{
+    position:absolute;
+
+    top:0;
+    right:40px;
+
+    width:220px;
+    height:60px;
+
+    z-index:999;
+}
+
+/* KNOW MORE */
+
+.know-more-btn{
+    position:absolute;
+
+    width:260px;
+    height:80px;
+
+    left:50%;
+    top:76%;
+
+    transform:translateX(-50%);
+
+    z-index:999;
+
+    cursor:pointer;
+}
+
+/* OFFER */
+
+.offer{
+
+    min-height:100vh;
+
+    display:flex;
+    flex-direction:column;
+
+    justify-content:center;
+    align-items:center;
+
+    padding:100px;
+
+    background:white;
+}
+
+.offer h2{
+
+    font-size:50px;
+
+    color:#16213e;
+
+    margin-bottom:60px;
+}
+
+.cards{
+
+    display:flex;
+
+    gap:40px;
+
+    flex-wrap:wrap;
+
+    justify-content:center;
+}
+
+.card{
+
+    width:320px;
+
+    padding:35px;
+
+    border-radius:25px;
+
+    background:white;
+
+    text-align:center;
+
+    cursor:pointer;
+
+    box-shadow:
+    0 15px 40px rgba(0,0,0,0.12);
+
+    transition:
+    transform 0.4s ease,
+    box-shadow 0.4s ease;
+}
+
+.card:hover{
+
+    transform:
+    translateY(-15px)
+    rotateY(8deg);
+
+    box-shadow:
+    0 25px 60px rgba(0,0,0,0.18);
+}
+
+.card h3{
+
+    margin-bottom:20px;
+
+    color:#16213e;
+}
+
+.card p{
+
+    line-height:1.8;
+}
+
+.offer{
+    min-height:100vh;
+
+    display:flex;
+    flex-direction:column;
+
+    justify-content:center;
+    align-items:center;
+
+    padding:100px 40px;
+
+    background:#f8f9fc;
+}
+
+.offer h2{
+    font-size:50px;
+    color:#16213e;
+
+    margin-bottom:60px;
+}
+
+.cards{
+    display:flex;
+
+    gap:30px;
+
+    flex-wrap:wrap;
+
+    justify-content:center;
+}
+
+.card{
+    width:320px;
+
+    padding:35px;
+
+    border-radius:25px;
+
+    background:white;
+
+    box-shadow:
+    0 15px 40px rgba(0,0,0,0.12);
+
+    transition:0.4s;
+
+    cursor:pointer;
+}
+
+.card:hover{
+    transform:
+    translateY(-12px);
+}
+
+.card h3{
+    color:#16213e;
+
+    margin-bottom:20px;
+}
+
+.card p{
+    line-height:1.7;
+}
