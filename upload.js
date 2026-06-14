@@ -1,6 +1,5 @@
 function uploadFile() {
 
-```
 const file =
 document.getElementById("pdfUpload")
 .files[0];
@@ -16,9 +15,48 @@ if(!file){
     return;
 }
 
+let resources =
+JSON.parse(
+    localStorage.getItem("resources")
+) || [];
+
+resources.push(file.name);
+
+localStorage.setItem(
+    "resources",
+    JSON.stringify(resources)
+);
+
 status.innerHTML =
-`Selected file: ${file.name}`;
-```
+`${file.name} uploaded successfully.`;
+
+loadResources();
+
 
 }
 
+function loadResources(){
+
+
+const list =
+document.getElementById("resourceList");
+
+let resources =
+JSON.parse(
+    localStorage.getItem("resources")
+) || [];
+
+list.innerHTML = "";
+
+resources.forEach(resource => {
+
+    list.innerHTML += `
+        <li>${resource}</li>
+    `;
+
+});
+
+
+}
+
+window.onload = loadResources;
