@@ -2,11 +2,14 @@ export default async function handler(req, res) {
 
 try {
 
-if (!process.env.GROQ_API_KEY) {
-  return res.status(500).json({
-    error: "GROQ_API_KEY bulunamadı"
+
+if (req.method !== "POST") {
+  return res.status(405).json({
+    error: "Method not allowed"
   });
 }
+
+const { question } = req.body;
 
 const response = await fetch(
   "https://api.groq.com/openai/v1/chat/completions",
@@ -20,8 +23,13 @@ const response = await fetch(
       model: "llama-3.3-70b-versatile",
       messages: [
         {
+          role: "system",
+          content:
+            "You are Compendium AI, a scientific assistant. Explain concepts clearly. If the user writes in Turkish, answer in Turkish."
+        },
+        {
           role: "user",
-          content: "Merhaba"
+          content: question
         }
       ]
     })
@@ -30,10 +38,13 @@ const response = await fetch(
 
 const data = await response.json();
 
-return res.status(200).json(data);
+return res.status(200).json({
+  answer: data.choices[0].message.content
+});
 
 
 } catch (error) {
+
 
 return res.status(500).json({
   error: error.message
