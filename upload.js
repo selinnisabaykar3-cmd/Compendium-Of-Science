@@ -1,62 +1,32 @@
-function uploadFile() {
+async function uploadPDF() {
 
-const file =
-document.getElementById("pdfUpload")
-.files[0];
+  const fileInput =
+    document.getElementById("pdfFile");
 
-const status =
-document.getElementById("status");
+  const file =
+    fileInput.files[0];
 
-if(!file){
-
-    status.innerHTML =
-    "Please select a PDF file.";
-
+  if (!file) {
+    alert("PDF seç");
     return;
-}
+  }
 
-let resources =
-JSON.parse(
-    localStorage.getItem("resources")
-) || [];
+  const formData =
+    new FormData();
 
-resources.push(file.name);
+  formData.append("file", file);
 
-localStorage.setItem(
-    "resources",
-    JSON.stringify(resources)
-);
+  const response =
+    await fetch("/api/upload", {
+      method: "POST",
+      body: formData
+    });
 
-status.innerHTML =
-`${file.name} uploaded successfully.`;
+  const data =
+    await response.json();
 
-loadResources();
-
-
-}
-
-function loadResources(){
-
-
-const list =
-document.getElementById("resourceList");
-
-let resources =
-JSON.parse(
-    localStorage.getItem("resources")
-) || [];
-
-list.innerHTML = "";
-
-resources.forEach(resource => {
-
-    list.innerHTML += `
-        <li>${resource}</li>
-    `;
-
-});
-
+  document.getElementById("result")
+    .innerHTML =
+      data.url || data.error;
 
 }
-
-window.onload = loadResources;

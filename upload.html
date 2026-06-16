@@ -1,54 +1,39 @@
 <!DOCTYPE html>
-
-<html lang="en">
+<html>
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0">
-
-
-<title>Upload Resources</title>
-
-<link rel="stylesheet"
-      href="upload.css">
-
-
+  <title>Upload Resource</title>
 </head>
 
 <body>
 
-<div class="container">
+<h1>Upload Research Resource</h1>
 
+<input type="text" id="title" placeholder="Resource Title">
 
-<h1>Upload Your Resources</h1>
+<br><br>
 
-<p>
-    Upload your scientific PDFs,
-    notes and research materials.
-</p>
+<select id="category">
+  <option>Biology</option>
+  <option>Physics</option>
+  <option>Chemistry</option>
+  <option>Mathematics</option>
+  <option>Astronomy</option>
+</select>
 
-<div class="upload-box">
+<br><br>
 
-    <input type="file"
-           id="pdfUpload"
-           accept=".pdf">
+<input type="file" id="pdfFile" accept=".pdf">
 
-    <button onclick="uploadFile()">
-        Upload Resource
-    </button>
+<br><br>
 
-</div>
+<button onclick="uploadPDF()">
+  Upload
+</button>
 
-<div id="status"></div>
-<h2>Your Resources</h2>
-
-<ul id="resourceList"></ul>
-
-</div>
+<p id="result"></p>
 
 <script src="upload.js"></script>
 
 </body>
 </html>
-
