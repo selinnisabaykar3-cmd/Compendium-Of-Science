@@ -7,26 +7,63 @@ async function uploadPDF() {
     fileInput.files[0];
 
   if (!file) {
-    alert("PDF seç");
+
+    alert("Lütfen PDF seç");
+
     return;
   }
 
-  const formData =
-    new FormData();
-
-  formData.append("file", file);
-
-  const response =
-    await fetch("/api/upload", {
-      method: "POST",
-      body: formData
-    });
-
-  const data =
-    await response.json();
-
   document.getElementById("result")
     .innerHTML =
-      data.url || data.error;
+      "Uploading...";
+
+  try {
+
+    const response =
+      await fetch(
+        "/api/upload",
+        {
+          method: "POST",
+
+          headers: {
+            "x-filename":
+              file.name
+          },
+
+          body: file
+        }
+      );
+
+    const data =
+      await response.json();
+
+    if (data.url) {
+
+      document.getElementById("result")
+        .innerHTML =
+          `
+          <p>Upload successful!</p>
+
+          <a href="${data.url}"
+             target="_blank">
+             Open PDF
+          </a>
+          `;
+
+    } else {
+
+      document.getElementById("result")
+        .innerHTML =
+          data.error;
+
+    }
+
+  } catch (error) {
+
+    document.getElementById("result")
+      .innerHTML =
+        error.message;
+
+  }
 
 }
