@@ -34,9 +34,15 @@ async function uploadPDF() {
         }
       );
 
-    const data =
-      await response.json();
+    const text =
+  await response.text();
 
+console.log(text);
+
+document.getElementById("result")
+  .innerHTML = text;
+
+return;
     if (data.url) {
 
       document.getElementById("result")
