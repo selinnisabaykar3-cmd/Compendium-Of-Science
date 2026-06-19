@@ -1,143 +1,74 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
-  <title>Upload Resource</title>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Upload Resource</title>
+
+<link rel="stylesheet" href="upload.css">
+
 </head>
-<style>
 
-body{
-    margin:0;
-    padding:0;
-    min-height:100vh;
-
-    background:linear-gradient(
-        135deg,
-        #07111f,
-        #10253f,
-        #18385e
-    );
-
-    font-family:Arial,sans-serif;
-
-    display:flex;
-    justify-content:center;
-    align-items:center;
-}
-
-.container{
-
-    width:500px;
-
-    background:rgba(255,255,255,0.08);
-
-    backdrop-filter:blur(12px);
-
-    padding:40px;
-
-    border-radius:20px;
-
-    box-shadow:
-    0 0 30px rgba(0,0,0,0.3);
-
-    text-align:center;
-
-    color:white;
-}
-
-h1{
-    margin-bottom:25px;
-}
-
-input,
-select{
-
-    width:100%;
-
-    padding:12px;
-
-    margin-bottom:15px;
-
-    border:none;
-
-    border-radius:10px;
-
-    font-size:16px;
-}
-
-button{
-
-    background:#2f80ed;
-
-    color:white;
-
-    border:none;
-
-    padding:12px 25px;
-
-    border-radius:10px;
-
-    cursor:pointer;
-
-    font-size:16px;
-
-    transition:0.3s;
-}
-
-button:hover{
-
-    background:#1d68d8;
-}
-
-#result{
-
-    margin-top:20px;
-
-    font-weight:bold;
-}
-
-</style>
 <body>
+
 <div class="container">
+
 <h1>Upload Research Resource</h1>
 
-<input type="text" id="title" placeholder="Resource Title">
-
-<br><br>
+<input
+type="text"
+id="title"
+placeholder="Resource Title">
 
 <select id="category">
 
-<option value="biology">Biology</option>
+<option value="biology">
+Biology
+</option>
 
-<option value="physics">Physics</option>
+<option value="physics">
+Physics
+</option>
 
-<option value="chemistry">Chemistry</option>
+<option value="chemistry">
+Chemistry
+</option>
 
-<option value="mathematics">Mathematics</option>
+<option value="mathematics">
+Mathematics
+</option>
 
-<option value="astronomy">Astronomy</option>
+<option value="astronomy">
+Astronomy
+</option>
 
-<option value="computer-science">Computer Science</option>
-
-<option value="engineering">Engineering</option>
-
-<option value="medicine">Medicine</option>
+<option value="computer-science">
+Computer Science
+</option>
 
 </select>
 
-<br><br>
-
-<input type="file" id="pdfFile" accept=".pdf">
-
-<br><br>
+<input
+type="file"
+id="pdfFile"
+accept=".pdf">
 
 <button onclick="uploadPDF()">
-  Upload
+
+Upload PDF
+
 </button>
 
-<p id="result"></p>
+<div id="result"></div>
 
 </div>
+
 <script src="upload.js"></script>
+
 </body>
+
 </html>
