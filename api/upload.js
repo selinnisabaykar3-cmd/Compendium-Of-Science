@@ -22,12 +22,12 @@ export default async function handler(req, res) {
       );
 
     const blob = await put(
-      filename,
-      req,
-      {
-        access: "public"
-      }
-    );
+  filename,
+  req,
+  {
+    access: "private"
+  }
+);
 
     return res.status(200).json({
       success: true,
