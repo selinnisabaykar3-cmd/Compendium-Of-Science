@@ -1,10 +1,17 @@
+import { put } from "@vercel/blob";
+
+export const config = {
+  api: {
+    bodyParser: false
+  }
+};
+
 export default async function handler(req, res) {
 
   try {
 
     return res.status(200).json({
-      success: true,
-      step: "api çalışıyor"
+      hasToken: !!process.env.BLOB_READ_WRITE_TOKEN
     });
 
   } catch (error) {
