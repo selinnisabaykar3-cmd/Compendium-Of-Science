@@ -17,9 +17,9 @@ export default async function handler(req, res) {
     }
 
     const filename =
-  decodeURIComponent(
-    req.headers["x-filename"]
-  );
+      decodeURIComponent(
+        req.headers["x-filename"]
+      );
 
     const blob = await put(
       filename,
