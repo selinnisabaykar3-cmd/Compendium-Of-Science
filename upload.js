@@ -1,21 +1,29 @@
 async function uploadPDF() {
 
+  const title =
+    document.getElementById("title").value;
+
+  const category =
+    document.getElementById("category").value;
+
   const fileInput =
     document.getElementById("pdfFile");
 
   const file =
     fileInput.files[0];
 
-  if (!file) {
-
-    alert("Lütfen PDF seç");
-
+  if (!title) {
+    alert("Başlık giriniz");
     return;
   }
 
-  document.getElementById("result")
-    .innerHTML =
-      "Uploading...";
+  if (!file) {
+    alert("Lütfen PDF seç");
+    return;
+  }
+
+  document.getElementById("result").innerHTML =
+    "Uploading...";
 
   try {
 
@@ -27,40 +35,40 @@ async function uploadPDF() {
 
           headers: {
             "x-filename":
-              file.name
+              encodeURIComponent(file.name)
           },
 
           body: file
         }
       );
 
-    const text =
-  await response.text();
+    const data =
+      await response.json();
 
-console.log(text);
+    console.log(data);
 
-document.getElementById("result")
-  .innerHTML = text;
-
-return;
-    if (data.url) {
+    if (data.success) {
 
       document.getElementById("result")
         .innerHTML =
-          `
-          <p>Upload successful!</p>
+        `
+        <p>✅ Upload başarılı</p>
 
-          <a href="${data.url}"
-             target="_blank">
-             Open PDF
-          </a>
-          `;
+        <p><b>${title}</b></p>
+
+        <p>Kategori: ${category}</p>
+
+        <a href="${data.url}"
+           target="_blank">
+           PDF Aç
+        </a>
+        `;
 
     } else {
 
       document.getElementById("result")
         .innerHTML =
-          data.error;
+        data.error;
 
     }
 
@@ -68,7 +76,7 @@ return;
 
     document.getElementById("result")
       .innerHTML =
-        error.message;
+      error.message;
 
   }
 
