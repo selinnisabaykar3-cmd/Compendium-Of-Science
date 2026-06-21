@@ -57,3 +57,30 @@ h1{
     translateY(-10px);
 
 }
+#resources{
+    margin-top:30px;
+}
+
+.resource-card{
+
+    background:rgba(255,255,255,0.08);
+
+    padding:20px;
+
+    margin-bottom:15px;
+
+    border-radius:15px;
+
+    color:white;
+
+    backdrop-filter:blur(10px);
+}
+
+.resource-card a{
+
+    color:#4da3ff;
+
+    text-decoration:none;
+
+    font-weight:bold;
+}

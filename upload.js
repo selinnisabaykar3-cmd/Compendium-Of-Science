@@ -48,7 +48,22 @@ async function uploadPDF() {
     console.log(data);
 
     if (data.success) {
+const resources =
+  JSON.parse(
+    localStorage.getItem("resources")
+    || "[]"
+  );
 
+resources.push({
+  title: title,
+  category: category,
+  url: data.url
+});
+
+localStorage.setItem(
+  "resources",
+  JSON.stringify(resources)
+);
       document.getElementById("result")
         .innerHTML =
         `
