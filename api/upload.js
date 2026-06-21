@@ -25,10 +25,10 @@ export default async function handler(req, res) {
   filename,
   req,
   {
-    access: "private"
+    access: "private",
+    addRandomSuffix: true
   }
 );
-
     return res.status(200).json({
       success: true,
       url: blob.url
