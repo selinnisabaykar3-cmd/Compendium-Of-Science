@@ -1,98 +1,43 @@
 async function uploadPDF() {
-
-  const title =
-    document.getElementById("title").value;
-
-  const category =
-    document.getElementById("category").value;
-
-  const fileInput =
-    document.getElementById("pdfFile");
-
-  const file =
-    fileInput.files[0];
-
-  if (!title) {
-    alert("Başlık giriniz");
-    return;
-  }
+  const fileInput = document.getElementById("pdfFile");
+  const file = fileInput.files[0];
 
   if (!file) {
     alert("Lütfen PDF seç");
     return;
   }
 
-  document.getElementById("result").innerHTML =
-    "Uploading...";
+  const result = document.getElementById("result");
+  result.innerHTML = "Uploading...";
 
   try {
+    const response = await fetch("/api/upload", {
+      method: "POST",
+      headers: {
+        "x-filename": encodeURIComponent(file.name),
+      },
+      body: file,
+    });
 
-    const response =
-      await fetch(
-        "/api/upload",
-        {
-          method: "POST",
-
-          headers: {
-            "x-filename":
-              encodeURIComponent(file.name)
-          },
-
-          body: file
-        }
-      );
-
-    const data =
-      await response.json();
+    const data = await response.json();
 
     console.log(data);
 
-    if (data.success) {
-const resources =
-  JSON.parse(
-    localStorage.getItem("resources")
-    || "[]"
-  );
-
-resources.push({
-  title: title,
-  category: category,
-  url: data.url
-});
-
-localStorage.setItem(
-  "resources",
-  JSON.stringify(resources)
-);
-      document.getElementById("result")
-        .innerHTML =
-        `
-        <p>✅ Upload başarılı</p>
-
-        <p><b>${title}</b></p>
-
-        <p>Kategori: ${category}</p>
-
-        <a href="${data.url}"
-           target="_blank">
-           PDF Aç
-        </a>
-        `;
-
-    } else {
-
-      document.getElementById("result")
-        .innerHTML =
-        data.error;
-
+    if (!response.ok) {
+      result.innerHTML =
+        "Hata: " + (data.error || "Upload başarısız");
+      return;
     }
 
+    result.innerHTML = `
+      <p>Upload başarılı ✅</p>
+      <p>${file.name}</p>
+      <a href="/api/view-pdf?url=${encodeURIComponent(data.url)}" target="_blank">
+  PDF Aç
+</a>
+    `;
   } catch (error) {
-
-    document.getElementById("result")
-      .innerHTML =
-      error.message;
-
+    console.error(error);
+    result.innerHTML = "Hata: " + error.message;
   }
-
 }
