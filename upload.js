@@ -32,7 +32,7 @@ async function uploadPDF() {
     result.innerHTML = `
       <p>Upload başarılı ✅</p>
       <p>${file.name}</p>
-      <a href="/api/view-pdf?url=${encodeURIComponent(data.url)}" target="_blank">
+      <a href="/api/view-pdf?pathname=${encodeURIComponent(data.pathname)}" target="_blank">
   PDF Aç
 </a>
     `;
