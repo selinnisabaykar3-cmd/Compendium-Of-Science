@@ -16,36 +16,34 @@ export default async function handler(req, res) {
       });
     }
 
+    console.log("VIEW PDF pathname:", pathname);
+
     const result = await get(pathname, {
       access: "private",
     });
 
-    if (!result || result.statusCode !== 200) {
-      return res.status(404).send("PDF not found");
+    console.log("VIEW PDF RESULT:", result);
+
+    if (!result) {
+      return res.status(404).json({
+        error: "Blob not found",
+      });
     }
 
     res.setHeader(
       "Content-Type",
-      result.blob.contentType || "application/pdf"
+      result.blob?.contentType || "application/pdf"
     );
 
-    res.setHeader(
-      "Content-Disposition",
-      "inline"
-    );
-
-    res.setHeader(
-      "X-Content-Type-Options",
-      "nosniff"
-    );
+    res.setHeader("Content-Disposition", "inline");
 
     return result.stream.pipe(res);
-
   } catch (error) {
-    console.error(error);
+    console.error("VIEW PDF ERROR:", error);
 
     return res.status(500).json({
-      error: error.message,
+      error: error?.message || "Unknown error",
+      name: error?.name || "UnknownError",
     });
   }
 }
