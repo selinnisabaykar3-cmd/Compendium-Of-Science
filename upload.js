@@ -374,16 +374,17 @@ async function uploadPDF() {
       console.log('Upload result:', data);
 
 
-      if (!response.ok) {
+    if (!response.ok) {
+
   console.error('UPLOAD FAILED:', data);
 
-  result.innerHTML =
-    '<p>PDF yüklenemedi ❌</p>' +
-    '<p>Hata: ' +
-    escapeHTML(data.error || 'Bilinmeyen hata') +
-    '</p>';
+  uploadedItems.push({
+    fileName: file.name,
+    error: data.error || 'Bilinmeyen hata'
+  });
 
   failedCount++;
+
   continue;
 }
 
@@ -417,33 +418,6 @@ async function uploadPDF() {
   }
 
 
-  // -----------------------------
-  // RESULT
-  // -----------------------------
-
-  let resultHTML =
-    '<p><strong>' +
-    successCount +
-    '</strong> PDF başarıyla yüklendi ✅</p>';
-
-
-  if (failedCount > 0) {
-    resultHTML +=
-      '<p>' +
-      failedCount +
-      ' PDF yüklenemedi ❌</p>';
-  }
-
-
-  uploadedItems.forEach(function (item) {
-
-    if (!item.pathname) {
-      return;
-    }
-
-
-    resultHTML +=
-      '<div class="selected-file">' +
 
       '📄 ' +
       escapeHTML(item.fileName) +
@@ -459,14 +433,69 @@ async function uploadPDF() {
       '</a>' +
 
       '</div>';
-  });
+  };
 
 
   result.innerHTML = resultHTML;
 
 
-  saveUploadedResources(uploadedItems);
+  // -----------------------------
+  // RESULT
+  // -----------------------------
+
+// -----------------------------
+// RESULT
+// -----------------------------
+
+let resultHTML =
+  '<p><strong>' +
+  successCount +
+  '</strong> PDF başarıyla yüklendi ✅</p>';
+
+if (failedCount > 0) {
+  resultHTML +=
+    '<p><strong>' +
+    failedCount +
+    '</strong> PDF yüklenemedi ❌</p>';
 }
+
+uploadedItems.forEach(function (item) {
+
+ if (item.error) {
+
+  resultHTML +=
+    '<div class="selected-file">' +
+    '📄 ' +
+    escapeHTML(item.fileName) +
+    '<br>' +
+    '<strong>Hata:</strong> ' +
+    escapeHTML(item.error) +
+    '</div>';
+
+  return;
+}
+
+if (!item.pathname) {
+  return;
+}
+
+  resultHTML +=
+    '<div class="selected-file">' +
+    '📄 ' +
+    escapeHTML(item.fileName) +
+    '<br>' +
+    '<a href="/api/view-pdf?pathname=' +
+    encodeURIComponent(item.pathname) +
+    '" target="_blank">' +
+    'PDF Aç' +
+    '</a>' +
+    '</div>';
+});
+
+result.innerHTML = resultHTML;
+
+saveUploadedResources(uploadedItems);
+
 
 
 // -----------------------------
