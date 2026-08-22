@@ -367,8 +367,28 @@ async function uploadPDF() {
         });
 
 
-      const data =
-        await response.json();
+     const responseText = await response.text();
+
+let data = {};
+
+try {
+  data = responseText
+    ? JSON.parse(responseText)
+    : {};
+} catch (error) {
+  console.error(
+    'API returned non-JSON:',
+    responseText
+  );
+
+  data = {
+    error:
+      'API JSON döndürmedi. HTTP ' +
+      response.status +
+      ' - ' +
+      responseText
+  };
+}
 
 
       console.log('Upload result:', data);
