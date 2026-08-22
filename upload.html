@@ -1,74 +1,357 @@
+
+
+:::writing{variant="standard" id="58321"}
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
 
-<meta charset="UTF-8">
+  <meta charset="UTF-8">
 
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
 
-<title>Upload Resource</title>
+  <title>Research Library</title>
 
-<link rel="stylesheet" href="upload.css">
+  <link
+    rel="stylesheet"
+    href="upload.css"
+  >
 
 </head>
 
 <body>
 
-<div class="container">
+  <main class="page">
 
-<h1>Upload Research Resource</h1>
+    <!-- LIBRARY VIEW -->
 
-<input
-type="text"
-id="title"
-placeholder="Resource Title">
+    <section
+      id="libraryView"
+      class="library-view"
+    >
 
-<select id="category">
+      <h1>Research Library</h1>
 
-<option value="biology">
-Biology
-</option>
+      <p
+        id="emptyMessage"
+        class="empty-message"
+      >
+        You don't have any uploaded PDFs yet.
+      </p>
 
-<option value="physics">
-Physics
-</option>
+      <div
+        id="resourceList"
+        class="resource-list"
+      ></div>
 
-<option value="chemistry">
-Chemistry
-</option>
+      <!-- ADD BUTTON -->
 
-<option value="mathematics">
-Mathematics
-</option>
+      <button
+        type="button"
+        class="add-pdf-button"
+        onclick="openUploadPanel()"
+        aria-label="Add PDF"
+      >
+        +
+      </button>
 
-<option value="astronomy">
-Astronomy
-</option>
+      <p class="add-pdf-label">
+        Add PDF
+      </p>
 
-<option value="computer-science">
-Computer Science
-</option>
+    </section>
 
-</select>
 
-<input
-type="file"
-id="pdfFile"
-accept=".pdf">
+    <!-- UPLOAD VIEW -->
 
-<button onclick="uploadPDF()">
+    <section
+      id="uploadView"
+      class="upload-card hidden"
+    >
 
-Upload PDF
+      <div class="header">
 
-</button>
+        <span class="header-icon">
+          📚
+        </span>
 
-<div id="result"></div>
+        <div>
 
-</div>
+          <h1>
+            Add Research Resource
+          </h1>
 
-<script src="upload.js"></script>
+          <p>
+            Add and organize your research material.
+          </p>
+
+        </div>
+
+      </div>
+
+
+      <!-- TITLE -->
+
+      <div class="field">
+
+        <label for="title">
+          Resource Title
+        </label>
+
+        <input
+          type="text"
+          id="title"
+          placeholder="e.g. Introduction to Genetics"
+        >
+
+      </div>
+
+
+      <!-- FOLDER -->
+
+      <div class="field">
+
+        <div class="label-row">
+
+          <label for="category">
+            Folder
+          </label>
+
+          <button
+            type="button"
+            class="new-folder-button"
+            onclick="openFolderCreator()"
+          >
+            + New Folder
+          </button>
+
+        </div>
+
+        <select id="category"></select>
+
+      </div>
+
+
+      <!-- PDF -->
+
+      <div class="field">
+
+        <label>
+          PDF File
+        </label>
+
+        <label
+          for="pdfFile"
+          class="file-picker"
+        >
+
+          <span class="file-icon">
+            📄
+          </span>
+
+          <span>
+
+            <strong>
+              Choose PDF files
+            </strong>
+
+            <small>
+              You can select multiple PDFs
+            </small>
+
+          </span>
+
+        </label>
+
+        <input
+          type="file"
+          id="pdfFile"
+          accept=".pdf"
+          multiple
+          hidden
+        >
+
+        <div
+          id="selectedFiles"
+        ></div>
+
+      </div>
+
+
+      <!-- UPLOAD BUTTON -->
+
+      <button
+        type="button"
+        class="upload-button"
+        onclick="uploadPDF()"
+      >
+        Upload Resources
+      </button>
+
+      <div
+        id="result"
+      ></div>
+
+
+      <!-- BACK -->
+
+      <button
+        type="button"
+        class="back-button"
+        onclick="closeUploadPanel()"
+      >
+        ← Back to Library
+      </button>
+
+    </section>
+
+  </main>
+
+
+  <!-- NEW FOLDER MODAL -->
+
+  <div
+    id="folderModal"
+    class="modal hidden"
+  >
+
+    <div class="modal-card">
+
+      <div class="modal-header">
+
+        <h2>
+          Create New Folder
+        </h2>
+
+        <button
+          type="button"
+          class="close-button"
+          onclick="closeFolderCreator()"
+        >
+          ×
+        </button>
+
+      </div>
+
+
+      <!-- FOLDER NAME -->
+
+      <div class="field">
+
+        <label for="newFolderName">
+          Folder Name
+        </label>
+
+        <input
+          type="text"
+          id="newFolderName"
+          placeholder="e.g. My Research"
+          maxlength="40"
+        >
+
+      </div>
+
+
+      <!-- FOLDER COLOR -->
+
+      <div class="field">
+
+        <label>
+          Folder Color
+        </label>
+
+        <div class="color-picker">
+
+          <button
+            type="button"
+            class="color-option selected"
+            data-color="#6366f1"
+            style="background-color: #6366f1;"
+            onclick="selectFolderColor(this)"
+            aria-label="Purple"
+          ></button>
+
+          <button
+            type="button"
+            class="color-option"
+            data-color="#22c55e"
+            style="background-color: #22c55e;"
+            onclick="selectFolderColor(this)"
+            aria-label="Green"
+          ></button>
+
+          <button
+            type="button"
+            class="color-option"
+            data-color="#f59e0b"
+            style="background-color: #f59e0b;"
+            onclick="selectFolderColor(this)"
+            aria-label="Orange"
+          ></button>
+
+          <button
+            type="button"
+            class="color-option"
+            data-color="#ef4444"
+            style="background-color: #ef4444;"
+            onclick="selectFolderColor(this)"
+            aria-label="Red"
+          ></button>
+
+          <button
+            type="button"
+            class="color-option"
+            data-color="#ec4899"
+            style="background-color: #ec4899;"
+            onclick="selectFolderColor(this)"
+            aria-label="Pink"
+          ></button>
+
+          <button
+            type="button"
+            class="color-option"
+            data-color="#06b6d4"
+            style="background-color: #06b6d4;"
+            onclick="selectFolderColor(this)"
+            aria-label="Cyan"
+          ></button>
+
+          <button
+            type="button"
+            class="color-option"
+            data-color="#8b5cf6"
+            style="background-color: #8b5cf6;"
+            onclick="selectFolderColor(this)"
+            aria-label="Violet"
+          ></button>
+
+        </div>
+
+      </div>
+
+
+      <!-- CREATE FOLDER -->
+
+      <button
+        type="button"
+        class="create-folder-button"
+        onclick="createFolder()"
+      >
+        Create Folder
+      </button>
+
+    </div>
+
+  </div>
+
+
+  <script src="upload.js"></script>
 
 </body>
 
 </html>
+:::
+
