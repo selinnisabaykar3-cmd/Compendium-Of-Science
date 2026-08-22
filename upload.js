@@ -200,11 +200,15 @@ function createFolder() {
 // -----------------------------
 
 function setupColorPicker() {
+
   const colorButtons =
     document.querySelectorAll('.color-option');
 
   colorButtons.forEach(function (button) {
-    button.addEventListener('click', function () {
+
+    button.addEventListener('click', function (event) {
+
+      event.preventDefault();
 
       colorButtons.forEach(function (item) {
         item.classList.remove('selected');
@@ -214,7 +218,13 @@ function setupColorPicker() {
 
       selectedFolderColor =
         button.getAttribute('data-color');
+
+      console.log(
+        'Selected folder color:',
+        selectedFolderColor
+      );
     });
+
   });
 }
 
@@ -354,18 +364,44 @@ async function uploadPDF() {
         folder.id + '/' + file.name;
 
 
-      const response =
-        await fetch('/api/upload', {
-          method: 'POST',
+    const controller = new AbortController();
 
-          headers: {
-            'x-filename':
-              encodeURIComponent(filename)
-          },
+const timeout = setTimeout(function () {
+  controller.abort();
+}, 30000);
 
-          body: file
-        });
+let response;
 
+try {
+
+  response = await fetch('/api/upload', {
+    method: 'POST',
+
+    headers: {
+      'x-filename': encodeURIComponent(filename)
+    },
+
+    body: file,
+
+    signal: controller.signal
+  });
+
+} catch (error) {
+
+  clearTimeout(timeout);
+
+  if (error.name === 'AbortError') {
+
+    throw new Error(
+      'Upload 30 saniyeden uzun sürdü. API cevap vermiyor.'
+    );
+
+  }
+
+  throw error;
+}
+
+clearTimeout(timeout);
 
      const responseText = await response.text();
 
